@@ -59,17 +59,17 @@ public class CategoriesController(MyContextATB myContextATB)
         var category = myContextATB.Categories.Find(id); //Знаходимо категорію за id
         if (category != null)
         {
-            var dir = Directory.GetCurrentDirectory();
-            var wwwroot = "wwwroot";
-            string fileName = category.Image;
-            var savePath = Path.Combine(dir, wwwroot, "images", fileName);
-            if (System.IO.File.Exists(savePath) && fileName != "default.jpg")
+            var dir = Directory.GetCurrentDirectory(); // Зберігаємо путь до папки
+            var wwwroot = "wwwroot"; // Зберігаємо путь до папки wwwroot
+            string fileName = category.Image; // Зберігаємо имя файла, який потрібно видалити
+            var savePath = Path.Combine(dir, wwwroot, "images", fileName); // Зберігаємо путь до файла, який потрібно видалити
+            if (System.IO.File.Exists(savePath) && fileName != "default.jpg") // Перевіряємо, чи існує файл і чи він не є дефолтним зображенням
             {
                 System.IO.File.Delete(savePath); //Видаляємо файл з диску
             }
             myContextATB.Categories.Remove(category); //Робимо SQL запит DELETE
             myContextATB.SaveChanges(); //Зберігаємо зміни в БД - Викную SQL запит COMMIT
         }
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction(nameof(Index)); // Після видалення категорії, перенаправляємо користувача на сторінку зі списком категорій
     }
 }
